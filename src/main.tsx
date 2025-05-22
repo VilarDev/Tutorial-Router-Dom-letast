@@ -15,8 +15,11 @@ import ErrorPage from "./Error-peges/error-page.tsx";
 // IMPORTANTE: Importa o componente Contact E o loader que você exportou de contact.tsx
 import Contact, { loader as contactLoader } from "./routes/Contact/contact.tsx";
 
-// CORREÇÃO: Importa o componente EditContact E a action dele, com a extensão .tsx
-import EditContact, { action as editAction } from "./routes/Edit/edit.tsx"; // <-- Linha corrigida!
+// Importa o componente EditContact E a action dele
+import EditContact, { action as editAction } from "./routes/Edit/edit.tsx";
+
+// <--- ADICIONE ESTA IMPORTAÇÃO PARA A ACTION DE DELETAR
+import { action as destroyAction } from "./routes/Destroy/destroy.tsx";
 
 const router = createBrowserRouter([
   {
@@ -31,22 +34,19 @@ const router = createBrowserRouter([
         element: <Contact />,
         loader: contactLoader,
       },
-      // CORREÇÃO: A rota de edição deve ser um FILHO da rota Root,
-      // para que EditContact seja renderizado no <Outlet /> do Root.
       {
         path: "contacts/:contactId/edit",
         element: <EditContact />,
         loader: contactLoader, // Reutiliza o contactLoader
-        action: editAction, // <-- Adiciona a action aqui!
+        action: editAction,
+      },
+      // <--- ADICIONE ESTA NOVA ROTA PARA DELETAR
+      {
+        path: "contacts/:contactId/destroy", // Esta rota não precisa de um 'element'
+        action: destroyAction, // Associa a action de exclusão
       },
     ],
   },
-  // REMOVIDO: A rota de edição não deve ser de nível superior aqui.
-  // {
-  //   path: "contacts/:contactId/edit",
-  //   element: <EditContact />,
-  //   loader: contactLoader,
-  // },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

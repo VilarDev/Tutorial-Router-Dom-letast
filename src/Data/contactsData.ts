@@ -12,7 +12,7 @@ export interface Contact { // Exportamos a interface para poder usá-la em outro
 }
 
 // Alguns contatos de exemplo para começar
-const contacts: Contact[] = [ // Usamos 'let' para que o array possa ser modificado
+let contacts: Contact[] = [ // Usamos 'let' para que o array possa ser modificado
   {
     id: "abc",
     first: "Alice",
@@ -77,6 +77,17 @@ export async function updateContact(id: string, updates: Partial<Contact>): Prom
   // Object.assign copia todas as propriedades do objeto 'updates' para o 'contact'
   Object.assign(contact, updates);
   return contact;
+}
+
+
+// Função para deletar um contato
+export async function deleteContact(id: string): Promise<boolean> {
+  await new Promise(r => setTimeout(r, 500)); // Simula atraso de rede
+  const initialLength = contacts.length;
+  // Filtra o array, removendo o contato com o ID fornecido
+  contacts  = contacts.filter(contact => contact.id !== id);
+  // Retorna true se o comprimento do array mudou (ou seja, um contato foi removido)
+  return contacts.length !== initialLength;
 }
 
 // Você adicionará mais funções aqui à medida que avança no tutorial (ex: updateContact, deleteContact)
