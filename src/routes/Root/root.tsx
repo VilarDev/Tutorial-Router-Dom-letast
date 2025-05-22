@@ -1,29 +1,31 @@
 // src/routes/Root/root.tsx
+
 import {
   Outlet,
   Link,
   useLoaderData,
   Form,
+  redirect, // <--- ADICIONE 'redirect' AQUI
 } from "react-router-dom";
 
-import "./root.css"; 
+// IMPORTA AS FUNÇÕES DE DADOS DO SEU ARQUIVO SEPARADO
+import { getContacts, createContact, type Contact } from "../../Data/contactsData";
+import "./root.css"; // Certifique-se que esta é a linha correta para o CSS do Root
 
-// IMPORTANTE: Corrija o caminho para o seu arquivo de dados e importe a interface Contact
-import { getContacts, createContact, type Contact } from "../../Data/contactsData"; // <-- Adicione 'type Contact' aqui
-
-export async function action() {
-  const contact = await createContact();
-  return { contact };
-}
-
+// Loader para a rota raiz: busca todos os contatos
 export async function loader() {
   const contacts = await getContacts();
   return { contacts };
 }
 
+// Action para a rota raiz: cria um novo contato
+export async function action() {
+  const contact = await createContact();
+  // <--- MUDANÇA AQUI: REDIRECIONA PARA A PÁGINA DE EDIÇÃO DO NOVO CONTATO
+  return redirect(`/contacts/${contact.id}/edit`);
+}
+
 export default function Root() {
-  // Use useLoaderData para acessar os dados retornados pelo loader
-  // Tipagem correta: use { contacts: Contact[] }
   const { contacts } = useLoaderData() as { contacts: Contact[] };
 
   return (
@@ -31,36 +33,14 @@ export default function Root() {
       <div id="sidebar">
         <h1>React Router Contacts</h1>
         <div>
-          {/* O formulário para criar um novo contato que chamará a 'action' */}
           <Form method="post">
             <button type="submit">New</button>
           </Form>
-          {/* A ordem foi ajustada para o botão "New" vir antes do campo de busca,
-              seguindo o layout típico do tutorial. */}
-          <form id="search-form" role="search">
-            <input
-              id="q"
-              aria-label="Search contacts"
-              placeholder="Search"
-              type="search"
-              name="q"
-            />
-            <div
-              id="search-spinner"
-              aria-hidden
-              hidden={true}
-            />
-            <div
-              className="sr-only"
-              aria-live="polite"
-            ></div>
-          </form>
         </div>
         <nav>
-          {/* Use os dados do loader para renderizar a lista de contatos */}
           {contacts.length ? (
             <ul>
-              {contacts.map((contact: Contact) => ( // <-- Tipagem correta para 'contact' aqui
+              {contacts.map((contact) => (
                 <li key={contact.id}>
                   <Link to={`contacts/${contact.id}`}>
                     {contact.first || contact.last ? (
