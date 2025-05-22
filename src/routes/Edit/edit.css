@@ -1,0 +1,82 @@
+/* src/routes/Edit/edit.css */
+
+/* Estilos gerais para o formulário */
+#contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Espaçamento entre os elementos */
+  padding: 1.5em;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  max-width: 900px; /* Limita a largura do formulário */
+  width: 600px;
+  margin: 2em auto; /* Centraliza o formulário */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para os parágrafos e labels (containers de input) */
+#contact-form p,
+#contact-form label {
+  display: flex;
+  flex-direction: column; /* Organiza label e input verticalmente */
+  margin-bottom: 0.5em;
+}
+
+#contact-form span {
+  font-weight: bold;
+  margin-bottom: 0.3em;
+  color: #333;
+}
+
+/* Estilos para inputs e textarea */
+#contact-form input[type="text"],
+#contact-form textarea {
+  width: 100%;
+  padding: 0.8em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura */
+}
+
+#contact-form textarea {
+  resize: vertical; /* Permite redimensionar verticalmente */
+  min-height: 80px;
+}
+
+/* Estilos para o grupo de botões */
+#contact-form p:last-of-type {
+  display: flex;
+  gap: 0.5em; /* Espaçamento entre os botões */
+  margin-top: 1em;
+  justify-content: flex-end; /* Alinha os botões à direita */
+}
+
+/* Estilos para os botões */
+#contact-form button {
+  padding: 0.8em 1.5em;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#contact-form button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+
+#contact-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+#contact-form button[type="button"] { /* Para o botão Cancelar */
+  background-color: #6c757d;
+  color: white;
+}
+
+#contact-form button[type="button"]:hover {
+  background-color: #5a6268;
+}

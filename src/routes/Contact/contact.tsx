@@ -1,40 +1,31 @@
 // src/routes/Contact/contact.tsx
 
-import { Form, useLoaderData } from "react-router-dom"; // Importa useLoaderData
-import "./contact.css";
+import { Form, useLoaderData, type LoaderFunctionArgs } from "react-router-dom";
+import "./contact.css"; // <--- CORREÇÃO: Importa o CSS CORRETO para este componente!
 
-// IMPORTA A FUNÇÃO getContact DO SEU ARQUIVO DE DADOS (contacts.ts)
-// Ajuste o caminho se seu contacts.ts estiver em outro lugar (ex: "../data/contacts")
-import { getContact } from "../../Data/contactsData.ts";
+// IMPORTA A FUNÇÃO getContact E A INTERFACE Contact DO SEU ARQUIVO DE DADOS
+import { getContact, type Contact } from "../../Data/contactsData";
 
-// (Opcional, mas recomendado) Definição da interface Contact para tipagem
-interface Contact {
-  id: string;
-  first: string;
-  last: string;
-  avatar: string;
-  twitter: string;
-  notes: string;
-  favorite: boolean;
-}
+// Este loader é executado ANTES que o componente Contact seja renderizado
+export async function loader({ params }: LoaderFunctionArgs) {
+  // Afirmamos que params.contactId é uma string
+  const contactId = params.contactId as string;
+  const contact = await getContact(contactId);
 
-// *** PASSO 1: DEFINIR E EXPORTAR O LOADER ***
-// Esta função é executada ANTES que o componente Contact seja renderizado
-export async function loader({ params }: { params: { contactId: string } }) {
-  const contact = await getContact(params.contactId);
-  // Opcional: Adicionar tratamento para contato não encontrado (melhora a experiência de erro)
+  // Tratamento para caso o contato não seja encontrado
   if (!contact) {
     throw new Response("Not Found", { status: 404 });
   }
-  return { contact }; // Retorna o objeto contact
+  return { contact };
 }
 
 export default function Contact() {
-  // *** PASSO 2: USAR useLoaderData PARA OBTER OS DADOS ***
-  // Agora 'contact' virá do loader, não de um objeto mockado
+  // Usa useLoaderData para obter os dados do loader
   const { contact } = useLoaderData() as { contact: Contact };
 
   return (
+    // ATENÇÃO: Este componente renderiza APENAS os detalhes de UM contato
+    // Não há sidebar ou lista de contatos aqui!
     <div id="contact">
       <div>
         <img
@@ -96,7 +87,7 @@ export default function Contact() {
   );
 }
 
-// Seu componente Favorite (melhor com tipagem)
+// Componente Favorite (melhor com tipagem)
 function Favorite({ contact }: { contact: Contact }) {
   const favorite = contact.favorite;
   return (

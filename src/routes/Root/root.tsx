@@ -1,5 +1,4 @@
-// src/routes/root.tsx
-
+// src/routes/Root/root.tsx
 import {
   Outlet,
   Link,
@@ -7,11 +6,10 @@ import {
   Form,
 } from "react-router-dom";
 
-// IMPORTANTE: Corrija o caminho para o seu arquivo de dados.
-// Se seu arquivo de dados estiver em src/contacts.ts:
-import { getContacts, createContact } from "../../Data/contactsData" // <-- MUITO PROVAVELMENTE É ESTE!
-// OU se seu arquivo de dados estiver em src/data.ts:
-// import { getContacts, createContact } from "../data";
+import "./root.css"; 
+
+// IMPORTANTE: Corrija o caminho para o seu arquivo de dados e importe a interface Contact
+import { getContacts, createContact, type Contact } from "../../Data/contactsData"; // <-- Adicione 'type Contact' aqui
 
 export async function action() {
   const contact = await createContact();
@@ -23,11 +21,10 @@ export async function loader() {
   return { contacts };
 }
 
-import "./root.css"
-
 export default function Root() {
   // Use useLoaderData para acessar os dados retornados pelo loader
-  const { contacts } = useLoaderData() as { contacts: any[] }; // Adicione tipagem, ou defina uma interface Contact[]
+  // Tipagem correta: use { contacts: Contact[] }
+  const { contacts } = useLoaderData() as { contacts: Contact[] };
 
   return (
     <>
@@ -63,7 +60,7 @@ export default function Root() {
           {/* Use os dados do loader para renderizar a lista de contatos */}
           {contacts.length ? (
             <ul>
-              {contacts.map((contact: any) => ( // Ajuste 'any' para a sua interface de contato
+              {contacts.map((contact: Contact) => ( // <-- Tipagem correta para 'contact' aqui
                 <li key={contact.id}>
                   <Link to={`contacts/${contact.id}`}>
                     {contact.first || contact.last ? (
@@ -72,7 +69,8 @@ export default function Root() {
                       </>
                     ) : (
                       <i>No Name</i>
-                    )}
+                    )}{" "}
+                    {contact.favorite && <span>★</span>}
                   </Link>
                 </li>
               ))}
