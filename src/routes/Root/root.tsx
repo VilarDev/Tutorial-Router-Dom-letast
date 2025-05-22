@@ -2,15 +2,16 @@
 
 import {
   Outlet,
-  NavLink, // <--- Use NavLink aqui!
+  NavLink,
   useLoaderData,
   Form,
   redirect,
+  useNavigation, // <--- ADICIONE 'useNavigation' AQUI
 } from "react-router-dom";
 
 // IMPORTA AS FUNÇÕES DE DADOS DO SEU ARQUIVO SEPARADO
 import { getContacts, createContact, type Contact } from "../../Data/contactsData";
-import "./root.css"; // Certifique-se que esta é a linha correta para o CSS do Root
+import "./root.css";
 
 // Loader para a rota raiz: busca todos os contatos
 export async function loader() {
@@ -20,12 +21,13 @@ export async function loader() {
 
 // Action para a rota raiz: cria um novo contato
 export async function action() {
-  const contact = await await createContact();
+  const contact = await createContact();
   return redirect(`/contacts/${contact.id}/edit`);
 }
 
 export default function Root() {
   const { contacts } = useLoaderData() as { contacts: Contact[] };
+  const navigation = useNavigation(); // <--- CHAME O HOOK useNavigation AQUI
 
   return (
     <>
@@ -41,16 +43,14 @@ export default function Root() {
             <ul>
               {contacts.map((contact) => (
                 <li key={contact.id}>
-                  {/* <Link> MUDADO PARA <NavLink> */}
                   <NavLink
                     to={`contacts/${contact.id}`}
-                    // Adiciona classes baseadas no estado da navegação (ativo/pendente)
                     className={({ isActive, isPending }) =>
                       isActive
-                        ? "active" // Aplica a classe 'active' se for a rota atual
+                        ? "active"
                         : isPending
-                        ? "pending" // Aplica a classe 'pending' se a navegação estiver pendente
-                        : "" // Nenhuma classe extra se não for ativo nem pendente
+                        ? "pending"
+                        : ""
                     }
                   >
                     {contact.first || contact.last ? (
@@ -72,7 +72,13 @@ export default function Root() {
           )}
         </nav>
       </div>
-      <div id="detail">
+      <div
+        id="detail"
+        // <--- ADICIONE ESTA CLASSE DINÂMICA AQUI
+        className={
+          navigation.state === "loading" ? "loading" : ""
+        }
+      >
         <Outlet />
       </div>
     </>

@@ -150,3 +150,10 @@ body {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* Estilos para o estado de carregamento */
+#detail.loading {
+  opacity: 0.5; /* Diminui a opacidade para indicar carregamento */
+  transition: opacity 200ms ease-in-out; /* Transição suave */
+  transition-delay: 50ms; /* Pequeno atraso para evitar o flicker em carregamentos rápidos */
+}
