@@ -1,11 +1,24 @@
+// main.tsx (ou index.tsx)
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import "./App.css"; // Estilos globais
 
-import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+// Importa o componente Root que será o layout principal
+import Root from "./routes/root.tsx";
 
-import App from "./App.tsx";
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />, // <-- A rota raiz renderiza o componente Root
+  },
+]);
 
-createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );
