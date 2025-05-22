@@ -34,9 +34,20 @@ let contacts: Contact[] = [ // Usamos 'let' para que o array possa ser modificad
 ];
 
 // Função para obter todos os contatos
-export async function getContacts(): Promise<Contact[]> {
+// CORREÇÃO: Adicionado o parâmetro 'query' para permitir a busca
+export async function getContacts(query?: string): Promise<Contact[]> {
   await new Promise(r => setTimeout(r, 500)); // Simula atraso de rede
-  return [...contacts]; // Retorna uma cópia do array
+  let filteredContacts = [...contacts]; // Começa com uma cópia de todos os contatos
+
+  // Se houver uma query, filtra os contatos
+  if (query) {
+    filteredContacts = filteredContacts.filter(contact =>
+      // Verifica se o termo de busca está no primeiro ou último nome (case-insensitive)
+      (contact.first?.toLowerCase().includes(query.toLowerCase())) ||
+      (contact.last?.toLowerCase().includes(query.toLowerCase()))
+    );
+  }
+  return filteredContacts; // Retorna os contatos filtrados ou todos
 }
 
 // Função para obter um único contato pelo ID
@@ -63,10 +74,6 @@ export async function createContact(): Promise<Contact> {
   return newContact;
 }
 
-// src/Data/contactsData.ts
-
-// ... (seus imports, interface Contact, array contacts, getContacts, getContact, createContact existentes) ...
-
 // Função para atualizar um contato existente
 export async function updateContact(id: string, updates: Partial<Contact>): Promise<Contact> {
   await new Promise(r => setTimeout(r, 500)); // Simula atraso de rede
@@ -79,17 +86,12 @@ export async function updateContact(id: string, updates: Partial<Contact>): Prom
   return contact;
 }
 
-
 // Função para deletar um contato
 export async function deleteContact(id: string): Promise<boolean> {
   await new Promise(r => setTimeout(r, 500)); // Simula atraso de rede
   const initialLength = contacts.length;
   // Filtra o array, removendo o contato com o ID fornecido
-  contacts  = contacts.filter(contact => contact.id !== id);
+  contacts = contacts.filter(contact => contact.id !== id);
   // Retorna true se o comprimento do array mudou (ou seja, um contato foi removido)
   return contacts.length !== initialLength;
 }
-
-// Você adicionará mais funções aqui à medida que avança no tutorial (ex: updateContact, deleteContact)
-// export async function updateContact(id: string, updates: Partial<Contact>): Promise<Contact> { ... }
-// export async function deleteContact(id: string): Promise<boolean> { ... }

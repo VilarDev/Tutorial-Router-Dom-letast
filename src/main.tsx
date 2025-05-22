@@ -21,6 +21,8 @@ import EditContact, { action as editAction } from "./routes/Edit/edit.tsx";
 // <--- ADICIONE ESTA IMPORTAÇÃO PARA A ACTION DE DELETAR
 import { action as destroyAction } from "./routes/Destroy/destroy.tsx";
 
+import Index from "./routes/index.tsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +31,9 @@ const router = createBrowserRouter([
     loader: rootLoader,
     action: rootAction,
     children: [
+      
+      { index: true, element: <Index /> },
+      
       {
         path: "contacts/:contactId",
         element: <Contact />,
