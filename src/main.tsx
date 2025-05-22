@@ -9,11 +9,13 @@ import "./App.css"; // Estilos globais
 
 // Importa o componente Root que será o layout principal
 import Root from "./routes/root.tsx";
+import ErrorPage from "./Error-peges/error-page.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />, // <-- A rota raiz renderiza o componente Root
+    errorElement: <ErrorPage />,
   },
 ]);
 
