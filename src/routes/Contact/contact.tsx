@@ -1,5 +1,5 @@
 import { Form } from "react-router-dom";
-import "./contact.css"
+import "./contact.css";
 
 export default function Contact() {
   const contact = {
@@ -9,6 +9,7 @@ export default function Contact() {
     twitter: "your_handle",
     notes: "Some notes",
     favorite: true,
+    id: "default", // <-- Adicionei um ID aqui!
   };
 
   return (
@@ -18,6 +19,7 @@ export default function Contact() {
           key={contact.avatar}
           src={
             contact.avatar ||
+            // Agora contact.id existe e será "default" para o exemplo
             `https://robohash.org/${contact.id}.png?size=200x200`
           }
         />
@@ -69,11 +71,11 @@ export default function Contact() {
           </Form>
         </div>
       </div>
-      
     </div>
   );
 }
 
+// Seu componente Favorite (não alterado, mas incluído para contexto)
 function Favorite({ contact }) {
   const favorite = contact.favorite;
   return (
