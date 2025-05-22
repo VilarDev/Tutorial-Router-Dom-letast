@@ -44,6 +44,7 @@ const router = createBrowserRouter([
       {
         path: "contacts/:contactId/destroy", // Esta rota não precisa de um 'element'
         action: destroyAction, // Associa a action de exclusão
+        errorElement: <div>Oops! There was an error.</div>,
       },
     ],
   },

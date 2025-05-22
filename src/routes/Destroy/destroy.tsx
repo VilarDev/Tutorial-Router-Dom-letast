@@ -8,6 +8,7 @@ export async function action({ params }: ActionFunctionArgs) {
   // Garante que contactId é uma string
   const contactId = params.contactId as string;
 
+  throw new Error("oh dang!");
   // Chama a função para deletar o contato
   await deleteContact(contactId);
 
