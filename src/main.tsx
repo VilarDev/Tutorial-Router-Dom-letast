@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 
-import Root, { loader as rootLoader } from "./routes/Root/root.tsx"; // <-- Linha corrigida!
+import Root, { loader as rootLoader, action as rootAction } from "./routes/Root/root.tsx"; // <-- Linha corrigida!
 import ErrorPage from "./Error-peges/error-page.tsx";
 import Contact from "./routes/Contact/contact.tsx";
 
@@ -16,6 +16,7 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     loader: rootLoader, // Usamos o alias rootLoader aqui
+    action: rootAction,
 
     children: [
       {
