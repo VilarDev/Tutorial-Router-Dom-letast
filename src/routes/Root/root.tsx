@@ -9,7 +9,7 @@ import {
 
 // IMPORTANTE: Corrija o caminho para o seu arquivo de dados.
 // Se seu arquivo de dados estiver em src/contacts.ts:
-import { getContacts, createContact } from "../../Data/contacts" // <-- MUITO PROVAVELMENTE É ESTE!
+import { getContacts, createContact } from "../../Data/contactsData" // <-- MUITO PROVAVELMENTE É ESTE!
 // OU se seu arquivo de dados estiver em src/data.ts:
 // import { getContacts, createContact } from "../data";
 

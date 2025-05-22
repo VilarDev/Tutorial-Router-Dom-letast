@@ -1,3 +1,5 @@
+// src/main.tsx
+
 import React from 'react';
 import ReactDOM from "react-dom/client";
 import {
@@ -5,23 +7,26 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+// Importa o componente Root, seu loader e sua action
+import Root, { loader as rootLoader, action as rootAction } from "./routes/Root/root.tsx";
 
-import Root, { loader as rootLoader, action as rootAction } from "./routes/Root/root.tsx"; // <-- Linha corrigida!
 import ErrorPage from "./Error-peges/error-page.tsx";
-import Contact from "./routes/Contact/contact.tsx";
+
+// IMPORTANTE: Importa o componente Contact E o loader que você exportou de contact.tsx
+import Contact, { loader as contactLoader } from "./routes/Contact/contact.tsx"; // <-- Linha corrigida/completa
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-    loader: rootLoader, // Usamos o alias rootLoader aqui
+    loader: rootLoader,
     action: rootAction,
-
     children: [
       {
         path: "contacts/:contactId",
         element: <Contact />,
+        loader: contactLoader, // <-- Associa o loader do Contact aqui!
       },
     ],
   },

@@ -33,11 +33,19 @@ const contacts: Contact[] = [
   },
 ];
 
+
 // Função para obter todos os contatos
 export async function getContacts(): Promise<Contact[]> {
   // Simula um atraso de rede
   await new Promise(r => setTimeout(r, 500));
   return [...contacts]; // Retorna uma cópia para evitar mutações diretas
+}
+
+export async function getContact(id: string): Promise<Contact | null> {
+  // Simula um atraso de rede
+  await new Promise(r => setTimeout(r, 500));
+  const foundContact = contacts.find(contact => contact.id === id);
+  return foundContact || null; // Retorna o contato ou null se não encontrar
 }
 
 // Função para criar um novo contato
